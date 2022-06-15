@@ -4,8 +4,9 @@ import math
 def PCircle(center,radius,thetastep):
     circleObj = []
     for theta in range(int(360/thetastep)):
+        theta = theta*thetastep
         dVector = [math.cos(theta*math.pi/180),math.sin(theta*math.pi/180)]
-        circleObj.append([radius*dVector[0]+center[0],radius*dVector[1]+center[1]])
+        circleObj.append((int(radius*dVector[0]+center[0]),int(radius*dVector[1]+center[1])))
     return circleObj
 
 #returns a circle drawn by varying x and y depending on the current gradient
@@ -38,5 +39,15 @@ def drawLine(p1,p0):
         y = int(p0[1]+step*direction[1])
         x = int(p0[0]+step*direction[0])
         points.append((x,y))
+    return points
+
+#returns an array of points containing a regular polygon
+def polyReg(center,radius,sides):
+    points = []
+    corners = PCircle(center,radius,360/sides)
+    for index in range(sides):
+        line = drawLine(corners[index],corners[(index+1)%sides])
+        for point in line:
+            points.append(point)
     return points
 
